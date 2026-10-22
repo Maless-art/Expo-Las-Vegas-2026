@@ -1,0 +1,5 @@
+LUQUISA EXPO PWA v0.5
+
+Subir juntos los archivos de esta carpeta a un alojamiento HTTPS (por ejemplo Firebase Hosting). Abrir la URL en Chrome Android y usar menú > Instalar aplicación. No abrir index.html directamente desde Descargas.
+
+Esta versión conserva el almacenamiento local de la v0.4. No hay sincronización entre dispositivos; respaldar los registros antes de cambiar de navegador o desinstalar. Probar modo sin conexión antes del viaje.
