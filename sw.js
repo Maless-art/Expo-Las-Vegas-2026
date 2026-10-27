@@ -1,11 +1,1 @@
-const CACHE_NAME="luquisa-expo-v0.8.1";
-self.addEventListener('install',e=>{e.waitUntil(self.skipWaiting())});
-self.addEventListener('activate',e=>{e.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('luquisa-expo-')&&k!==CACHE_NAME)await caches.delete(k);await self.clients.claim()})())});
-self.addEventListener('fetch',e=>{
- if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;
- e.respondWith((async()=>{
-  const cache=await caches.open(CACHE_NAME);
-  try{const response=await fetch(e.request);if(response.ok){try{await cache.put(e.request,response.clone())}catch(err){console.warn('Cache write:',err)}}return response}
-  catch(err){const cached=await cache.match(e.request);if(cached)return cached;if(e.request.mode==='navigate'){const home=await cache.match('./index.html');if(home)return home}throw err}
- })());
-});
+const CACHE='luquisa-expo-v092';const SHELL=['./','./index.html','./app-expo-v092.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('luquisa-expo-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==location.origin)return;e.respondWith(fetch(e.request).then(r=>{if(r.ok){const clone=r.clone();caches.open(CACHE).then(c=>c.put(e.request,clone))}return r}).catch(()=>caches.match(e.request).then(r=>r||Response.error())))});
